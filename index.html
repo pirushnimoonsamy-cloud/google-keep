@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keep</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar">
+
+    <div class="brand-area">
+      <button class="icon-button menu-button" id="menu-button" type="button">
+    <i class="bi bi-list"></i>
+</button>
+      <div class="keep-logo">✓</div>
+
+      <h1>Keep</h1>
+    </div>
+
+    <div class="search-box">
+      <span class="search-icon">⌕</span>
+
+      <input
+        id="search-input"
+        type="search"
+        placeholder="Search"
+        aria-label="Search notes"
+      >
+
+      <button
+        class="clear-search"
+        id="clear-search"
+        type="button"
+      >×</button>
+    </div>
+
+    <div class="nav-actions">
+
+     <button class="icon-button" id="refresh-button" type="button" title="Refresh" aria-label="Refresh">
+
+  <i class="bi bi-arrow-clockwise"></i>
+
+</button>
+
+     <button class="icon-button" type="button" title="Settings" aria-label="Settings">
+
+  <i class="bi bi-gear"></i>
+
+</button>
+
+      <button
+        class="profile-button"
+        type="button"
+        title="Account"
+      >P</button>
+
+    </div>
+
+  </header>
+
+
+  <div class="app-layout">
+
+    <aside class="sidebar" id="sidebar">
+
+      <nav>
+
+        <button class="sidebar-item active" data-view="notes" type="button">
+
+  <span><i class="bi bi-lightbulb"></i></span>
+
+  <span>Notes</span>
+
+</button>
+
+       <button class="sidebar-item" data-view="reminders" type="button">
+
+  <span><i class="bi bi-bell"></i></span>
+
+  <span>Reminders</span>
+
+</button>
+
+      <button class="sidebar-item" data-view="edit-labels" type="button">
+
+  <span><i class="bi bi-pencil"></i></span>
+
+  <span>Edit labels</span>
+
+</button>
+
+       <button class="sidebar-item" data-view="archive" type="button">
+
+  <span><i class="bi bi-archive"></i></span>
+
+  <span>Archive</span>
+
+</button>
+
+        <button class="sidebar-item" data-view="trash" type="button">
+
+  <span><i class="bi bi-trash"></i></span>
+
+  <span>Trash</span>
+
+</button>
+
+      </nav>
+
+    </aside>
+
+
+    <main class="main-content">
+
+      <div class="page-heading">
+        <h2 id="page-title">Notes</h2>
+      </div>
+
+
+      <section
+        class="create-section"
+        id="create-section"
+      >
+
+        <form
+          id="note-form"
+          class="note-form"
+        >
+
+          <input
+            id="note-title"
+            type="text"
+            maxlength="80"
+            placeholder="Title"
+          >
+
+          <textarea
+            id="note-content"
+            rows="2"
+            maxlength="600"
+            placeholder="Take a note..."
+          ></textarea>
+
+
+          <div class="reminder-row">
+
+            <label class="reminder-label" for="note-reminder" title="Add reminder">
+              <i class="bi bi-bell"></i>
+              <span>Reminder</span>
+            </label>
+
+            <input
+              id="note-reminder"
+              type="datetime-local"
+              title="Add reminder"
+              aria-label="Add reminder"
+            >
+
+          </div>
+
+
+          <div class="form-bottom">
+
+            <div class="color-picker">
+
+              <span class="color-label">Colour</span>
+
+              <button
+                class="color-option selected"
+                type="button"
+                data-color="default"
+                title="Default"
+              ></button>
+
+              <button
+                class="color-option yellow"
+                type="button"
+                data-color="yellow"
+                title="Yellow"
+              ></button>
+
+              <button
+                class="color-option green"
+                type="button"
+                data-color="green"
+                title="Green"
+              ></button>
+
+              <button
+                class="color-option blue"
+                type="button"
+                data-color="blue"
+                title="Blue"
+              ></button>
+
+              <button
+                class="color-option pink"
+                type="button"
+                data-color="pink"
+                title="Pink"
+              ></button>
+
+              <button
+                class="color-option purple"
+                type="button"
+                data-color="purple"
+                title="Purple"
+              ></button>
+
+            </div>
+
+
+            <button
+              class="add-button"
+              type="submit"
+            >
+              Add note
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      <section class="notes-section">
+
+        <div
+          id="empty-state"
+          class="empty-state"
+        >
+
+          <div class="empty-icon">
+
+          <i class="bi bi-lightbulb"></i>
+
+        </div>
+
+          <h2>Your notes appear here</h2>
+
+          <p>Create your first note above.</p>
+
+        </div>
+
+        <div
+          id="notes-container"
+          class="notes-grid"
+        ></div>
+
+      </section>
+    </main>
+  </div>
+  <div
+    class="mobile-overlay"
+    id="mobile-overlay"
+  ></div>
+
+  <div class="edit-modal" id="edit-modal">
+
+    <div class="edit-backdrop" id="edit-backdrop"></div>
+
+    <form class="note-form edit-dialog" id="edit-form">
+
+      <h2 class="edit-heading">Edit note</h2>
+
+      <input
+        id="edit-title"
+        type="text"
+        maxlength="80"
+        placeholder="Title"
+      >
+
+      <textarea
+        id="edit-content"
+        rows="5"
+        maxlength="600"
+        placeholder="Take a note..."
+      ></textarea>
+
+      <div class="form-bottom">
+
+        <div class="color-picker">
+
+          <span class="color-label">Colour</span>
+
+          <button class="color-option selected" type="button" data-color="default" title="Default"></button>
+
+          <button class="color-option yellow" type="button" data-color="yellow" title="Yellow"></button>
+
+          <button class="color-option green" type="button" data-color="green" title="Green"></button>
+
+          <button class="color-option blue" type="button" data-color="blue" title="Blue"></button>
+
+          <button class="color-option pink" type="button" data-color="pink" title="Pink"></button>
+
+          <button class="color-option purple" type="button" data-color="purple" title="Purple"></button>
+
+        </div>
+
+        <div class="edit-actions">
+
+          <button class="edit-cancel" id="edit-cancel" type="button">
+            Cancel
+          </button>
+
+          <button class="add-button" type="submit">
+            Save
+          </button>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
